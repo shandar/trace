@@ -21,7 +21,11 @@ Thumbs.db
 *.log
 npm-debug.log*
 
-# Trace's own sidecar during dogfooding
-# Leaving committed by default so decision history travels with the repo.
+# Hackathon build scaffolding — not part of the TRACE plugin
+.claude/skills/hackathon-discipline/
+.claude/commands/demo-check.md
+.claude/commands/daily-clip.md
+
+# Trace sidecar — committed by default so decision logs travel with the repo
 # Uncomment to gitignore:
 # .trace/
