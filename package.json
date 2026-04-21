@@ -1,0 +1,31 @@
+{
+  "name": "@affordance/trace",
+  "version": "0.0.1",
+  "description": "Every decision traced from intent to ship. A Claude Code plugin that turns your PRD into a living document.",
+  "type": "module",
+  "bin": {
+    "trace": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node ./dist/cli.js",
+    "test": "echo \"(tests to come)\" && exit 0"
+  },
+  "keywords": [
+    "claude-code",
+    "prd",
+    "living-document",
+    "hackathon",
+    "opus-4.7"
+  ],
+  "author": "Shandar Junaid <hello@affordancedesign.in>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.4.0"
+  },
+  "dependencies": {
+    "commander": "^14.0.3"
+  }
+}
