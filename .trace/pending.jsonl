@@ -1,3 +1,4 @@
 {"section":"Decision Log","edit":"Added a `_comment` field to package.json describing TRACE as a Claude Code plugin that turns a PRD into a living decision log.","confidence":0.5}
 {"section":"Decision Log","edit":"Confirmed src/ now contains four TypeScript modules totaling 524 lines, with session-proposer.ts (156) and review.ts (145) as the largest, indicating a session-scoped proposer has been added alongside the base proposer.","confidence":0.6}
 {"section":"Open Questions","edit":"Whether Stop hook latency is acceptable on long-running turns.","confidence":0.7}
+{"section":"Decision Log","edit":"Switched session-proposer from SessionEnd to Stop hook with a watermark-based incremental slice so each turn proposes only on new events containing meaningful tool calls (Edit/Write/Bash/MultiEdit/NotebookEdit).","confidence":0.85}
