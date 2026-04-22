@@ -1,1 +1,25 @@
-{"hooks":{"PostToolUse":[{"matcher":"*","hooks":[{"type":"command","command":"node /Users/shandarjunaid/Downloads/Trace/dist/proposer.js"}]}]}}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /Users/shandarjunaid/Downloads/Trace/dist/event-logger.js"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /Users/shandarjunaid/Downloads/Trace/dist/session-proposer.js"
+          }
+        ]
+      }
+    ]
+  }
+}

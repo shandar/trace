@@ -1,4 +1,5 @@
 {
+  "_comment": "TRACE — Claude Code plugin. Turns your PRD into a living decision log.",
   "name": "@affordance/trace",
   "version": "0.0.1",
   "description": "Every decision traced from intent to ship. A Claude Code plugin that turns your PRD into a living document.",

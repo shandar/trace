@@ -254,6 +254,7 @@ Split screen in the submission video:
 - [ ] How aggressive should drift detection be on day 1? (Lean: conservative — false positives kill trust.)
 - [ ] Name: TRACE is clean and action-oriented, but `trace` clashes with `strace`/`ltrace`-family CLI conventions. Consider a scoped npm name (`@affordance/trace` or `trace-cli`) for publication.
 - [ ] Do we support non-English PRDs in MVP? (Lean: no, English-only for v1.)
+- [ ] Whether Stop hook latency is acceptable on long-running turns.
 
 ---
 
@@ -303,3 +304,8 @@ This is where TRACE has to surface something that even Anthropic finds interesti
 ## Decision Log
 
 - Confirmed README.md exists with TRACE as the project title, establishing baseline repo documentation.
+- Demo recording session started.
+- Verified README.md reflects the current TRACE positioning, project layout, and day-1 status, confirming baseline documentation is consistent with TRACE.md before further edits.
+- Reviewed the tail of TRACE.md to confirm the Decision Log section structure before appending new entries.
+- Edited TRACE.md Decision Log directly to append a demo recording session marker, using manual entry rather than the auto-proposer flow.
+- Confirmed src/ contains three core modules (cli.ts, proposer.ts, review.ts), aligning with the MVP architecture's CLI + proposer + review loop.
