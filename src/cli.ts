@@ -2,6 +2,7 @@
 import { Command } from "commander";
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { review } from "./review.js";
 
 const TEMPLATE = `# TRACE — Living PRD
 
@@ -72,4 +73,11 @@ program
     }
   });
 
-program.parse();
+program
+  .command("review")
+  .description("Review pending proposed edits and append accepted ones to TRACE.md.")
+  .action(async () => {
+    await review(process.cwd());
+  });
+
+program.parseAsync();

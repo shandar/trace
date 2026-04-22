@@ -1,0 +1,1 @@
+{"hooks":{"PostToolUse":[{"matcher":"*","hooks":[{"type":"command","command":"node /Users/shandarjunaid/Downloads/Trace/dist/proposer.js"}]}]}}
