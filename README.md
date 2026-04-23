@@ -23,7 +23,7 @@ TRACE runs as a set of Claude Code hooks:
    - **Assumption** → Assumption Ledger
    - **Question** → Open Questions
 4. Proposals with confidence ≥ 0.5 land in `.trace/pending.jsonl`.
-5. `trace review` shows each proposal one at a time. `[a]` writes it into the right section of `TRACE.md`. `[s]` skips.
+5. `trace-prd review` shows each proposal one at a time. `[a]` writes it into the right section of `TRACE.md`. `[s]` skips.
 
 Pure read-only turns produce no proposals. Each turn is watermarked, so the same events are never synthesized twice.
 
@@ -38,7 +38,7 @@ npm install
 npm run build
 ```
 
-Then symlink the CLI locally so `trace` works in any directory:
+Then symlink the CLI locally so `trace-prd` works in any directory:
 
 ```bash
 npm link
@@ -57,7 +57,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 In any project directory where you want a living PRD:
 
 ```bash
-trace init
+trace-prd init
 ```
 
 This scaffolds a structured `TRACE.md` template. Open it, fill in the intent sections (what you're building, who it's for, what's in scope). Then start building with Claude Code as normal.
@@ -65,7 +65,7 @@ This scaffolds a structured `TRACE.md` template. Open it, fill in the intent sec
 Every turn, proposals accumulate in `.trace/pending.jsonl`. When you want to review them:
 
 ```bash
-trace review
+trace-prd review
 ```
 
 That's the whole loop.
@@ -82,7 +82,7 @@ trace/
 │   ├── cli.ts                   CLI entry (init, review subcommands)
 │   ├── event-logger.ts          PostToolUse hook — appends events to session log
 │   ├── session-proposer.ts      Stop hook — runs the 3-lens synthesizer
-│   └── review.ts                trace review command + section writer
+│   └── review.ts                trace-prd review command + section writer
 ├── .claude/
 │   └── settings.json            Hook registration for PostToolUse + Stop
 ├── .trace/

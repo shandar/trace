@@ -5,7 +5,7 @@
   "description": "Every decision traced from intent to ship. A Claude Code plugin that turns your PRD into a living document.",
   "type": "module",
   "bin": {
-    "trace": "./dist/cli.js"
+    "trace-prd": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsc",

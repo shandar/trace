@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { createInterface } from "node:readline";
-import { resolve } from "node:path";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { review } from "./review.js";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const { version } = JSON.parse(readFileSync(resolve(__dirname, "../package.json"), "utf8")) as { version: string };
 
 const TEMPLATE = `# TRACE — Living PRD
 
@@ -53,7 +57,7 @@ const program = new Command();
 program
   .name("trace")
   .description("Every decision traced from intent to ship.")
-  .version("0.0.1");
+  .version(version, "--version", "Print the version and exit");
 
 program
   .command("init")
