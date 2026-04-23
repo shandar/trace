@@ -1,14 +1,21 @@
 #!/usr/bin/env node
+// TODO: should we cap proposals per turn at 2 to reduce review fatigue?
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-const SYSTEM_PROMPT =
-  "Given the tool events from a single completed Claude Code turn and the current TRACE.md, propose ONE short edit — a single sentence capturing what meaningfully changed or was decided in this turn. Skip trivial turns (return confidence below 0.2). Return ONLY {\"section\": \"<section>\", \"edit\": \"<one sentence>\", \"confidence\": 0.0-1.0}. Pick section from: Decision Log, Assumption Ledger, Open Questions, In Scope, Out of Scope.";
+const LENS_A =
+  'What engineering or product decision was made this turn? If nothing decided, return confidence 0. Return ONLY {"section": "Decision Log", "edit": "...", "confidence": 0.0-1.0}.';
 
+const LENS_B =
+  'What prior assumption was validated, contradicted, or newly surfaced this turn? If none, return confidence 0. Return ONLY {"section": "Assumption Ledger", "edit": "...", "confidence": 0.0-1.0}.';
+
+const LENS_C =
+  'What open question or unknown emerged this turn? If none, return confidence 0. Return ONLY {"section": "Open Questions", "edit": "...", "confidence": 0.0-1.0}.';
+
+// Only write-mutating tools signal a meaningful turn; Bash/Read/Grep are read-only noise
 const MEANINGFUL_TOOLS = new Set([
   "Edit",
   "Write",
-  "Bash",
   "MultiEdit",
   "NotebookEdit",
 ]);
@@ -16,6 +23,7 @@ const MEANINGFUL_TOOLS = new Set([
 const MODEL = "claude-opus-4-7";
 const API_URL = "https://api.anthropic.com/v1/messages";
 const ANTHROPIC_VERSION = "2023-06-01";
+const CONFIDENCE_THRESHOLD = 0.5;
 
 interface AnthropicContentBlock {
   type: string;
@@ -26,12 +34,56 @@ interface AnthropicResponse {
   content?: AnthropicContentBlock[];
 }
 
+interface Proposal {
+  section: string;
+  edit: string;
+  confidence: number;
+}
+
 async function readStdin(): Promise<string> {
   const chunks: Buffer[] = [];
   for await (const chunk of process.stdin) {
     chunks.push(chunk as Buffer);
   }
   return Buffer.concat(chunks).toString("utf8");
+}
+
+async function callLens(
+  apiKey: string,
+  systemPrompt: string,
+  userContent: string,
+): Promise<Proposal | null> {
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": ANTHROPIC_VERSION,
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: 200,
+        system: systemPrompt,
+        messages: [{ role: "user", content: userContent }],
+      }),
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as AnthropicResponse;
+    const text = data.content?.[0]?.text?.trim();
+    if (!text) return null;
+    const parsed = JSON.parse(text) as Partial<Proposal>;
+    if (
+      typeof parsed.section === "string" &&
+      typeof parsed.edit === "string" &&
+      typeof parsed.confidence === "number"
+    ) {
+      return { section: parsed.section, edit: parsed.edit, confidence: parsed.confidence };
+    }
+    return null;
+  } catch {
+    return null;
+  }
 }
 
 async function main(): Promise<void> {
@@ -113,43 +165,21 @@ async function main(): Promise<void> {
   const sessionEvents = newLines.join("\n");
   const userContent = `<session_events>\n${sessionEvents}\n</session_events>\n\n<trace_md>\n${traceMd}\n</trace_md>`;
 
-  let res: Response;
-  try {
-    res = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": ANTHROPIC_VERSION,
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: 300,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: "user", content: userContent }],
-      }),
-    });
-  } catch {
-    return;
-  }
+  const results = await Promise.all([
+    callLens(apiKey, LENS_A, userContent),
+    callLens(apiKey, LENS_B, userContent),
+    callLens(apiKey, LENS_C, userContent),
+  ]);
 
-  if (!res.ok) return;
-
-  const data = (await res.json()) as AnthropicResponse;
-  const text = data.content?.[0]?.text?.trim();
-  if (!text) return;
-
-  let normalized: string;
-  try {
-    normalized = JSON.stringify(JSON.parse(text));
-  } catch {
-    return;
-  }
-
-  try {
-    appendFileSync(resolve(cwd, ".trace/pending.jsonl"), normalized + "\n");
-  } catch {
-    return;
+  const pendingPath = resolve(cwd, ".trace/pending.jsonl");
+  for (const proposal of results) {
+    if (proposal === null) continue;
+    if (proposal.confidence < CONFIDENCE_THRESHOLD) continue;
+    try {
+      appendFileSync(pendingPath, JSON.stringify(proposal) + "\n");
+    } catch {
+      // continue writing remaining proposals
+    }
   }
 }
 

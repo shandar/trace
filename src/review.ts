@@ -31,14 +31,18 @@ function parsePending(raw: string): PendingEdit[] {
   return out;
 }
 
-function appendToDecisionLog(tracePath: string, edit: string): void {
+function escapeRegExp(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function appendToSection(tracePath: string, section: string, edit: string): void {
   let doc = readFileSync(tracePath, "utf8");
   if (!doc.endsWith("\n")) doc += "\n";
   const bullet = `- ${edit}\n`;
 
-  const heading = /^##\s+Decision Log\b.*$/im.exec(doc);
+  const heading = new RegExp(`^##\\s+${escapeRegExp(section)}\\b.*$`, "im").exec(doc);
   if (!heading) {
-    writeFileSync(tracePath, `${doc}\n## Decision Log\n\n${bullet}`, "utf8");
+    writeFileSync(tracePath, `${doc}\n## ${section}\n\n${bullet}`, "utf8");
     return;
   }
 
@@ -108,9 +112,9 @@ export async function review(cwd: string): Promise<void> {
       }
 
       if (answer === "a" || answer === "accept") {
-        appendToDecisionLog(tracePath, edit);
+        appendToSection(tracePath, section, edit);
         accepted++;
-        console.log("→ accepted, appended to Decision Log.");
+        console.log(`→ accepted, appended to ${section}.`);
       } else {
         skipped++;
         console.log("→ skipped.");

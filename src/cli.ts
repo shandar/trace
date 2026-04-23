@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command } from "commander";
 import { writeFileSync } from "node:fs";
+import { createInterface } from "node:readline";
 import { resolve } from "node:path";
 import { review } from "./review.js";
 
@@ -57,19 +58,27 @@ program
 program
   .command("init")
   .description("Scaffold a TRACE.md in the current directory.")
-  .action(() => {
+  .action(async () => {
     const target = resolve(process.cwd(), "TRACE.md");
     try {
       writeFileSync(target, TEMPLATE, { flag: "wx" });
       console.log(`trace: wrote ${target}`);
     } catch (err: unknown) {
-      if ((err as NodeJS.ErrnoException).code === "EEXIST") {
-        console.error(
-          `trace: refusing to overwrite existing TRACE.md at ${target}`,
-        );
-        process.exit(1);
+      if ((err as NodeJS.ErrnoException).code !== "EEXIST") throw err;
+
+      const rl = createInterface({ input: process.stdin, output: process.stdout });
+      const answer = await new Promise<string>((resolve) =>
+        rl.question(`trace: TRACE.md already exists at ${target}. Overwrite? [y/N] `, resolve),
+      );
+      rl.close();
+
+      if (answer.trim().toLowerCase() !== "y") {
+        console.log("trace: aborted.");
+        process.exit(0);
       }
-      throw err;
+
+      writeFileSync(target, TEMPLATE);
+      console.log(`trace: overwrote ${target}`);
     }
   });
 

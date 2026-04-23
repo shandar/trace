@@ -301,6 +301,8 @@ This is where TRACE has to surface something that even Anthropic finds interesti
 
 *Plan ready. Execute mode next.*
 
+## Assumption Ledger
+
 ## Decision Log
 
 - Confirmed README.md exists with TRACE as the project title, establishing baseline repo documentation.
