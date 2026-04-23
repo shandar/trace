@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./trace-banner.png" alt="TRACE — Every decision traced from intent to ship. A Claude Code plugin." width="100%" />
+</p>
+
 # TRACE
 
 **Every decision traced from intent to ship.**
