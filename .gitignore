@@ -30,7 +30,10 @@ npm-debug.log*
 # Uncomment to gitignore:
 # .trace/
 .claude/settings.local.json
+.trace/.claude/settings.local.json
 PLAYBOOK.md
 
-
+# Personal BTS — drafts that ship to LinkedIn/Substack, not the repo
 docs/hackathon-journal.md
+docs/article.md
+docs/article-designer-vibe.md
