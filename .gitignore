@@ -31,3 +31,5 @@ npm-debug.log*
 # .trace/
 .claude/settings.local.json
 PLAYBOOK.md
+
+docs/hackathon-journal.md
