@@ -11,45 +11,33 @@ const { version } = JSON.parse(readFileSync(resolve(__dirname, "../package.json"
 
 const TEMPLATE = `# TRACE — Living PRD
 
-## 1. One-liner
+## Intent
 
-<!-- fill me -->
+<!-- What are you building and why? -->
 
----
+## Users
 
-## 2. Problem
+<!-- Who is this for? -->
 
-<!-- fill me -->
+## In scope
 
----
+<!-- What must ship? -->
 
-## 3. Target user
+## Out of scope
 
-<!-- fill me -->
+<!-- What are you explicitly not doing? -->
 
----
+## Open questions
 
-## 4. Core insight
+<!-- Unresolved decisions that could affect the build. -->
 
-<!-- fill me -->
+## Decision log
 
----
+<!-- Accepted decisions go here, appended by \`trace-prd review\`. -->
 
-## 5. MVP scope
+## Assumption ledger
 
-<!-- fill me -->
-
----
-
-## 6. Stretch scope
-
-<!-- fill me -->
-
----
-
-## 7. Out of scope
-
-<!-- fill me -->
+<!-- Surfaced assumptions go here, appended by \`trace-prd review\`. -->
 `;
 
 const program = new Command();

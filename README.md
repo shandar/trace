@@ -29,26 +29,35 @@ Pure read-only turns produce no proposals. Each turn is watermarked, so the same
 
 ---
 
+## Requirements
+
+- **Node.js ≥ 18** (ESM modules)
+- **[Claude Code](https://docs.claude.com/en/docs/claude-code)** — the CLI must be installed and working
+- **Anthropic API key** — separate from your Claude.ai/Max subscription. Hooks run as subprocesses and need an API key in their environment, not OAuth credentials.
+
+---
+
 ## Install
 
 ```bash
+# 1. Clone and build
 git clone https://github.com/shandar/trace.git
 cd trace
 npm install
 npm run build
-```
 
-Then symlink the CLI locally so `trace-prd` works in any directory:
-
-```bash
+# 2. Symlink the CLI globally
 npm link
+
+# 3. Export your Anthropic API key in your shell rc file
+echo 'export ANTHROPIC_API_KEY=sk-ant-...' >> ~/.zshrc
+source ~/.zshrc
+
+# 4. Verify
+trace-prd --version
 ```
 
-You'll also need an Anthropic API key exported in any shell that launches Claude Code:
-
-```bash
-export ANTHROPIC_API_KEY=sk-ant-...
-```
+> **Important:** the API key must be exported in the shell *before* you launch Claude Code. The hook subprocesses inherit the environment from whatever shell launched `claude`.
 
 ---
 
@@ -60,9 +69,11 @@ In any project directory where you want a living PRD:
 trace-prd init
 ```
 
-This scaffolds a structured `TRACE.md` template. Open it, fill in the intent sections (what you're building, who it's for, what's in scope). Then start building with Claude Code as normal.
+This scaffolds a structured `TRACE.md` with section headers (Intent, Users & jobs-to-be-done, In scope, Out of scope, Open Questions, Decision Log, Assumption Ledger). Open it and fill in the **Intent** section — what you're building and why.
 
-Every turn, proposals accumulate in `.trace/pending.jsonl`. When you want to review them:
+> **Hook activation note (current limitation):** the Claude Code hooks that drive TRACE are configured in this repo's `.claude/settings.json`. To activate them in another project, copy that folder into your target project's root: `cp -r path/to/trace/.claude /path/to/your-project/`. Future versions of `trace-prd init` will do this automatically.
+
+Then start building with Claude Code as normal. Every turn produces proposals in `.trace/pending.jsonl`. Review them with:
 
 ```bash
 trace-prd review
@@ -110,6 +121,17 @@ Read `TRACE.md` in this repo to see what a living PRD actually looks like in the
 - **Claude Code** — hook runtime, sub-agent orchestration, development environment
 - **Opus 4.7** — three specialist sub-agents (decision, assumption, question) running in parallel per turn
 - **TypeScript** on Node.js
+
+---
+
+## Known limitations
+
+This is a 6-day hackathon prototype. Open issues:
+
+- `trace-prd init` does not yet copy hook config into the target project — see Quickstart for the manual step.
+- Hardcoded paths in `.claude/settings.json` need to be made portable.
+- No `--help` output for individual subcommands.
+- macOS only tested. Linux likely works, Windows untested.
 
 ---
 

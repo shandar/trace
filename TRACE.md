@@ -303,6 +303,9 @@ This is where TRACE has to surface something that even Anthropic finds interesti
 
 ## Assumption Ledger
 
+- CLI version string was hardcoded to '0.0.1' in src/cli.ts, drifting from package.json — contradicted the implicit assumption that `--version` reflects the published package version; now resolved by reading version dynamically from package.json at runtime.
+- - Assumed macOS ships no `trace` binary and that npm's global bin directory wins PATH resolution — contradicted: macOS ships `/usr/bin/trace` (DTrace-based Instruments profiler) which shadows npm's global `trace`, forcing a rename of the CLI binary to `trace-prd` in package.json and all README command examples.
+
 ## Decision Log
 
 - Confirmed README.md exists with TRACE as the project title, establishing baseline repo documentation.
@@ -311,3 +314,9 @@ This is where TRACE has to surface something that even Anthropic finds interesti
 - Reviewed the tail of TRACE.md to confirm the Decision Log section structure before appending new entries.
 - Edited TRACE.md Decision Log directly to append a demo recording session marker, using manual entry rather than the auto-proposer flow.
 - Confirmed src/ contains three core modules (cli.ts, proposer.ts, review.ts), aligning with the MVP architecture's CLI + proposer + review loop.
+- - Wired `--version` flag to read from package.json at runtime (via `fileURLToPath`/`readFileSync`) instead of hardcoding `0.0.1` in cli.ts, so the CLI version stays in sync with the published package.
+- - Renamed the CLI binary from `trace` to `trace-prd` (package.json `bin` entry) to avoid collision with macOS's system `/usr/bin/trace` DTrace utility, which shadowed the npm-linked binary on PATH; updated all README command examples accordingly while keeping the product name "TRACE" unchanged in prose.
+
+## Open Questions
+
+- - [ ] Should the plugin publish under a scoped npm name (e.g. `@affordance/trace-prd`) so the binary and package identity stay aligned now that the CLI ships as `trace-prd` to avoid the macOS `/usr/bin/trace` collision?

@@ -1,0 +1,1 @@
+trace init assumed to be non-interactive (hard-fail on existing TRACE.md) — contradicted this turn: init is being converted to an async action with an interactive readline overwrite prompt [y/N], introducing stdin dependency into the CLI's scaffold path.
