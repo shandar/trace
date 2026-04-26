@@ -1,46 +1,35 @@
 # TRACE — Submission
 
-*Working draft. Final copy lands Saturday.*
-*Target: 150 words. Hard cap: 200.*
+**Demo video:** https://youtu.be/7vDUqqD3xWo
+**Repo:** https://github.com/shandar/trace
+**Builder:** Shandar Junaid · Affordance Design Studio · Bengaluru, India
 
 ---
 
-## v0 — 168 words
+## Description (157 words)
 
 **TRACE is a living PRD for Claude Code.**
 
-Every engineer who uses Claude Code writes a plan, starts building, and watches the plan go stale within the hour. The PRD becomes a tombstone. The code becomes the only source of truth, and the *why* behind every tradeoff disappears into commit messages.
+Every engineer who uses Claude Code writes a plan, starts building, and watches the plan go stale within the hour. The PRD becomes a tombstone. The code is the only source of truth, and the *why* behind every tradeoff disappears into commit messages.
 
-TRACE closes that loop. A PostToolUse hook captures every action Claude Code takes. An Opus 4.7 sub-agent reads the action and the current PRD, and proposes a one-sentence edit with a confidence score. The user accepts or skips in a minimal review TUI. Accepted edits land in the document, routed to the correct section.
+TRACE closes that loop. A PostToolUse hook captures every Claude Code action into a per-session log. After every turn, a Stop hook fires three Opus 4.7 sub-agents in parallel — one looks for decisions, one for assumptions validated or contradicted, one for open questions. Each returns a confidence-scored proposal. Confidence ≥ 0.5 lands in a review queue. The user accepts or skips in a minimal TUI, and accepted proposals write themselves into the right section of the PRD.
 
-The PRD in this repo was written by TRACE itself — commit [`797daaf`](https://github.com/shandar/trace/commit/797daaf) is the moment TRACE first used TRACE to document itself.
-
-Built in one day with Claude Code hooks, sub-agents, and Opus 4.7. Every decision traced, from intent to ship.
+This repo's TRACE.md was written by TRACE itself — commit [`797daaf`](https://github.com/shandar/trace/commit/797daaf) is the moment TRACE first used TRACE to document itself.
 
 ---
 
-## Rubric self-check
+## How TRACE addresses the rubric
 
-- **Impact (30%)** — ✓ Names the real problem (PRD rot), the real audience (Claude Code builders), and shows the thesis in one sentence.
-- **Demo (25%)** — ⚠ Video link gets pasted here Saturday.
-- **Opus 4.7 Use (25%)** — ✓ Names the model explicitly, ✓ shows sub-agent creative use, ✓ confidence-gating (once shipped) adds surprise.
-- **Depth (20%)** — ✓ Cites the thesis commit directly. Shows actual craft, not a quick hack.
+**Impact (30%).** PRD rot is universal — every engineer who has ever written a spec has watched it go stale. TRACE solves it for the fastest-growing AI-native development workflow (Claude Code), and the solution generalizes: any agentic coding tool with a hook system can host this loop. The proof is in this repo: TRACE's own PRD is alive.
 
----
+**Demo (25%).** The 3-minute video shows TRACE running on a fresh project. Claude Code is asked to make a real engineering tradeoff (`--name` CLI flag vs `NAME` env var precedence). After one turn, two proposals land in two different sections of the PRD, each from a different Opus 4.7 sub-agent. The Assumption Ledger proposal includes a test command the model executed to validate its own choice. Accepted, the proposals write themselves into the doc on screen.
 
-## Iteration notes
+**Opus 4.7 Use (25%).** Three parallel sub-agents, same model, three system prompts, three lenses on the same event. The Assumption Ledger lens consistently produces *inferences*, not summaries — naming implicit assumptions, identifying contradictions, even running test commands to validate behavior. Same model, used as a team of specialists rather than a generalist.
 
-- v0 is too technical in paragraph 2. A non-engineer judge should understand "PostToolUse hook" after reading — or the word "hook" gets replaced.
-- "Sub-agent" might confuse judges who haven't used Claude Code's sub-agent API. Consider replacing with "separate model instance".
-- The thesis commit line is the money sentence. Protect it through all edits.
-- If confidence-gating ships, add one line: *"Low-confidence proposals quietly route to a noise log; high-confidence ones auto-accept."*
+**Depth (20%).** Six days of real iteration documented in the repo's commit history. Day 3 included a known-bug pivot from `SessionEnd` to `Stop` hooks (issue #41577 in claude-code) that improved the product's semantics from "session recap" to "live companion." Day 4 added the multi-lens architecture as a deliberate rubric play. Both decisions are recorded in TRACE.md's own Decision Log — written by TRACE.
 
 ---
 
-## Final version checklist (Saturday)
+## Author note
 
-- [ ] Video link pasted in (YouTube Unlisted)
-- [ ] Commit hash still points to the right commit after any rebases
-- [ ] Word count between 100 and 200
-- [ ] Reads cleanly to a non-technical friend in one pass
-- [ ] All four rubric categories represented in the first 150 words
+I'm a UX designer turned AI product builder. Most of the code in this repo was written by Claude Code under direction. The product calls, the architecture decisions, the demo story, and this document are mine. TRACE is built on the thesis that the moat in AI-native software isn't keystrokes — it's judgment.
