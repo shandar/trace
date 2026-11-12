@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // PostToolUse hook: append a trimmed, redacted copy of each tool event to
 // .trace/sessions/<session_id>.jsonl. Only runs in projects that have a
-// TRACE.md (created by /trace-prd:init). Never blocks the session: every
+// TRACE.md (created by /trace-prd-auto:init). Never blocks the session: every
 // failure exits quietly with code 0.
 
 import { appendFileSync } from "node:fs";

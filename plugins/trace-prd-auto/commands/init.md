@@ -17,7 +17,7 @@ Set up TRACE for this project.
 
 4. Finish with a short note:
    - From now on, TRACE logs tool activity in this project to `.trace/sessions/` (gitignored, secrets redacted).
-   - Run `/trace-prd:review` at any point to turn recent work into Decision Log, Assumption Ledger and Open Questions entries.
+   - Run `/trace-prd-auto:review` at any point to turn recent work into Decision Log, Assumption Ledger and Open Questions entries.
    - Optional: setting an Anthropic API key in the plugin options turns on background proposals after each turn.
 
 $ARGUMENTS
