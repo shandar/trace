@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Deterministic helper behind /trace-prd:init and /trace-prd:review.
+// Deterministic helper behind /trace-prd-auto:init and /trace-prd-auto:review.
 // Claude handles the conversation; this script owns every file write so
 // TRACE.md edits are exact and repeatable.
 //
@@ -57,11 +57,11 @@ const TEMPLATE = `# TRACE: Living PRD
 
 ## Decision Log
 
-<!-- Accepted decisions, appended by /trace-prd:review. -->
+<!-- Accepted decisions, appended by /trace-prd-auto:review. -->
 
 ## Assumption Ledger
 
-<!-- Validated, contradicted, or new assumptions, appended by /trace-prd:review. -->
+<!-- Validated, contradicted, or new assumptions, appended by /trace-prd-auto:review. -->
 `;
 
 const root = process.env.CLAUDE_PROJECT_DIR || process.cwd();
@@ -73,7 +73,7 @@ function fail(msg, code = 1) {
 }
 
 function requireTraceMd() {
-  if (!existsSync(p.traceMd)) fail("no TRACE.md in this project. Run /trace-prd:init first.", 2);
+  if (!existsSync(p.traceMd)) fail("no TRACE.md in this project. Run /trace-prd-auto:init first.", 2);
 }
 
 /** Queue entries written by older versions have no id; give them one so they can be addressed. */

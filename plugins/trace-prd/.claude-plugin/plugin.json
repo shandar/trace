@@ -1,0 +1,20 @@
+{
+  "name": "trace-prd",
+  "version": "1.0.0",
+  "description": "Every decision traced from intent to ship. Keeps a living PRD (TRACE.md) in sync with what you are actually building: Claude offers Decision Log, Assumption Ledger and Open Questions entries as you work, and /trace-prd:review catches the PRD up with recent commits. Nothing is written without your yes.",
+  "author": {
+    "name": "Shandar Junaid",
+    "email": "hello@affordance.design",
+    "url": "https://github.com/shandar"
+  },
+  "homepage": "https://github.com/shandar/trace",
+  "repository": "https://github.com/shandar/trace",
+  "license": "MIT",
+  "keywords": [
+    "prd",
+    "living-document",
+    "decision-log",
+    "product-management",
+    "documentation"
+  ]
+}

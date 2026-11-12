@@ -1,7 +1,7 @@
 {
-  "name": "trace-prd",
+  "name": "trace-prd-auto",
   "version": "1.0.0",
-  "description": "Every decision traced from intent to ship. Keeps a living PRD (TRACE.md) in sync with what you are actually building: logs each turn, proposes Decision Log, Assumption Ledger and Open Questions entries, and lets you accept or skip each one.",
+  "description": "TRACE with automatic capture: hooks log each tool event (redacted) in projects that have a TRACE.md, and optional background proposals run after each turn with your own API key. Requires Node.js 18+. For the hook-free edition, install trace-prd.",
   "author": {
     "name": "Shandar Junaid",
     "email": "hello@affordance.design",
@@ -16,13 +16,14 @@
     "decision-log",
     "product-management",
     "documentation",
-    "hooks"
+    "hooks",
+    "automation"
   ],
   "userConfig": {
     "anthropic_api_key": {
       "type": "string",
       "title": "Anthropic API key (optional)",
-      "description": "Your own key, used only for background proposals after each turn. Stored in your OS credential store. Leave empty to generate proposals in-session with /trace-prd:review instead.",
+      "description": "Your own key, used only for background proposals after each turn. Stored in your OS credential store. Leave empty to generate proposals in-session with /trace-prd-auto:review instead.",
       "sensitive": true,
       "required": false
     },

@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "TRACE: a living PRD for Claude Code",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
       "name": "trace-prd",
-      "source": "./",
-      "description": "Every decision traced from intent to ship. Keeps a living PRD (TRACE.md) in sync with what you are actually building.",
+      "source": "./plugins/trace-prd",
+      "description": "Every decision traced from intent to ship. Keeps a living PRD (TRACE.md) in sync with what you are building. Markdown only: no hooks, no scripts, no keys.",
       "version": "1.0.0",
       "author": {
         "name": "Shandar Junaid",
@@ -22,6 +22,21 @@
       "repository": "https://github.com/shandar/trace",
       "license": "MIT",
       "keywords": ["prd", "living-document", "decision-log", "product-management", "documentation"],
+      "category": "productivity"
+    },
+    {
+      "name": "trace-prd-auto",
+      "source": "./plugins/trace-prd-auto",
+      "description": "TRACE with automatic capture: hooks log each tool event (redacted) and optional background proposals run with your own API key. Requires Node.js 18+.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Shandar Junaid",
+        "email": "hello@affordance.design"
+      },
+      "homepage": "https://github.com/shandar/trace",
+      "repository": "https://github.com/shandar/trace",
+      "license": "MIT",
+      "keywords": ["prd", "living-document", "decision-log", "hooks", "automation"],
       "category": "productivity"
     }
   ]

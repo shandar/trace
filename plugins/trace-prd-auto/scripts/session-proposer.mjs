@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Stop hook: background proposals. Runs only when the user has set their own
 // API key in the plugin options. Without a key it does nothing and leaves the
-// events unprocessed, so /trace-prd:review can synthesize them in-session.
+// events unprocessed, so /trace-prd-auto:review can synthesize them in-session.
 //
 // The key comes only from CLAUDE_PLUGIN_OPTION_ANTHROPIC_API_KEY (the plugin's
 // sensitive userConfig, kept in the OS credential store). It is sent only to

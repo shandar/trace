@@ -9,7 +9,7 @@ Helper: `node "${CLAUDE_PLUGIN_ROOT}/scripts/trace.mjs" <command>`
 
 ## 1. Load state
 
-Run `status`. If it exits with code 2, tell the user to run `/trace-prd:init` and stop.
+Run `status`. If it exits with code 2, tell the user to run `/trace-prd-auto:init` and stop.
 
 The JSON has:
 - `pending`: proposals already queued (from background runs or earlier reviews), each with an `id`.
