@@ -1,0 +1,37 @@
+{
+  "name": "trace-prd",
+  "version": "1.0.0",
+  "description": "Every decision traced from intent to ship. Keeps a living PRD (TRACE.md) in sync with what you are actually building: logs each turn, proposes Decision Log, Assumption Ledger and Open Questions entries, and lets you accept or skip each one.",
+  "author": {
+    "name": "Shandar Junaid",
+    "email": "hello@affordance.design",
+    "url": "https://github.com/shandar"
+  },
+  "homepage": "https://github.com/shandar/trace",
+  "repository": "https://github.com/shandar/trace",
+  "license": "MIT",
+  "keywords": [
+    "prd",
+    "living-document",
+    "decision-log",
+    "product-management",
+    "documentation",
+    "hooks"
+  ],
+  "userConfig": {
+    "anthropic_api_key": {
+      "type": "string",
+      "title": "Anthropic API key (optional)",
+      "description": "Your own key, used only for background proposals after each turn. Stored in your OS credential store. Leave empty to generate proposals in-session with /trace-prd:review instead.",
+      "sensitive": true,
+      "required": false
+    },
+    "model": {
+      "type": "string",
+      "title": "Background model",
+      "description": "Model used for background proposals (three short calls per editing turn). Ignored when no API key is set.",
+      "default": "claude-sonnet-5-5",
+      "required": false
+    }
+  }
+}

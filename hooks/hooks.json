@@ -1,0 +1,30 @@
+{
+  "description": "TRACE: log tool events for projects that have a TRACE.md, and optionally propose PRD edits after each turn.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/event-logger.mjs"],
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/session-proposer.mjs"],
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -26,9 +26,19 @@ npm-debug.log*
 .claude/commands/demo-check.md
 .claude/commands/daily-clip.md
 
-# Trace sidecar — committed by default so decision logs travel with the repo
-# Uncomment to gitignore:
-# .trace/
+# Trace sidecar: TRACE.md and .trace/pending.jsonl travel with the repo,
+# raw tool logs never do (they also carry .trace/.gitignore for user projects)
+.trace/sessions/
+
+# Secrets: never commit
+.env
+.env.*
+*.pem
+*secret*
+*private*
+
+# Local tooling
+.remember/
 .claude/settings.local.json
 .trace/.claude/settings.local.json
 PLAYBOOK.md
