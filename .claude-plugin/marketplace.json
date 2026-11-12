@@ -1,0 +1,28 @@
+{
+  "name": "trace-marketplace",
+  "owner": {
+    "name": "Shandar Junaid",
+    "email": "hello@affordance.design"
+  },
+  "metadata": {
+    "description": "TRACE: a living PRD for Claude Code",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "trace-prd",
+      "source": "./",
+      "description": "Every decision traced from intent to ship. Keeps a living PRD (TRACE.md) in sync with what you are actually building.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Shandar Junaid",
+        "email": "hello@affordance.design"
+      },
+      "homepage": "https://github.com/shandar/trace",
+      "repository": "https://github.com/shandar/trace",
+      "license": "MIT",
+      "keywords": ["prd", "living-document", "decision-log", "product-management", "documentation"],
+      "category": "productivity"
+    }
+  ]
+}
